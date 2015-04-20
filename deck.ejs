@@ -1,11 +1,22 @@
 <div is="mtg_deck">
-<% if (deck.list.mainboard.length > 0) { %>
-<ul is="mtg_deck_mainboard">
-<% deck.list.mainboard.forEach(function(slot){ %>
+<% if (deckList.mainboard.length > 0) { %>
+<dl is="mtg_deck_mainboard">
+<dt>Mainboard</dt><dd><ul>
+<% deckList.mainboard.forEach(function(slot){ %>
 <li>
 <span is="mtg_deck_count"><%= slot.count %></span>
 <span is="mtg_deck_cardname"><%= slot.card.name %></span>
 <% }) %>
-</ul>
+</ul></dd></dl>
+<% } %>
+<% if (deckList.sideboard.length > 0) { %>
+<dl is="mtg_deck_sideboard">
+<dt>Sideboard</dt><dd><ul>
+<% deckList.sideboard.forEach(function(slot){ %>
+<li>
+<span is="mtg_deck_count"><%= slot.count %></span>
+<span is="mtg_deck_cardname"><%= slot.card.name %></span>
+<% }) %>
+</ul></dd></dl>
 <% } %>
 </div>
