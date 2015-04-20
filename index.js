@@ -17,8 +17,8 @@ var parseDeckList = function(deckList) {
   var sideboard = [];
   var isMainboard = true;
 
-  var regexCardSlot = /^([0-9]+)\s(.*?)\n/;
-  var regexSideboard = /^Sideboard:/;
+  var regexCardSlot = /^([0-9]+)\s(.*)(?:\r|\n|$)/;
+  var regexSideboard = /^Sideboard/;
 
   while(deckList.length > 0) {
     deckList = deckList.trim();
@@ -33,6 +33,7 @@ var parseDeckList = function(deckList) {
         } else {
           sideboard.push(slot);
         }
+        return '';
       });
       continue;
     }
@@ -53,7 +54,7 @@ var parseDeckList = function(deckList) {
 var getDataUrl = function(deckList) {
   deckList = deckList.replace(/\r?\n/g, '\r');
   var buf = new Buffer(deckList, 'utf8');
-  return 'data:text/plain;base64,' + bug.toString('base64');
+  return 'data:text/plain;base64,' + buf.toString('base64');
 };
 
 hexo.extend.tag.register('mtg_deck', function(args, content) {
@@ -77,7 +78,7 @@ hexo.extend.tag.register('mtg_deck_asset', function(args) {
 
   var deckName = args.join(' ');
   var deckList = parseDeckList(fs.readFileSync(asset.source));
-  var uri = .ctx.config.root + asset.path
+  var uri = ctx.config.root + asset.path
 
   return deckTmpl({name: deckName, deckList: deckList, uri: uri}).replace(/(?:\r|\n)/g, '');;
 });
