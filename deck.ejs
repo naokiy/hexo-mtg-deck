@@ -1,0 +1,11 @@
+<div is="mtg_deck">
+<% if (deck.list.mainboard.length > 0) { %>
+<ul is="mtg_deck_mainboard">
+<% deck.list.mainboard.forEach(function(slot){ %>
+<li>
+<span is="mtg_deck_count"><%= slot.count %></span>
+<span is="mtg_deck_cardname"><%= slot.card.name %></span>
+<% }) %>
+</ul>
+<% } %>
+</div>

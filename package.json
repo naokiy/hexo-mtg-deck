@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/naokiy/hexo-mtg-deck",
   "dependencies": {
-    "mtg-card-sync": "*"
+    "mtg-card-sync": "*",
+    "ejs": "*"
   }
 }
