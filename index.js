@@ -18,10 +18,9 @@ var parseDeckList = function(deckList) {
   var isMainboard = true;
 
   var regexCardSlot = /^([0-9]+)\s(.*)(?:\r|\n|$)/;
-  var regexSideboard = /^Sideboard/;
+  var regexSideboard = /^$/;
 
   while(deckList.length > 0) {
-    deckList = deckList.trim();
     if (deckList.match(regexCardSlot)) {
       deckList = deckList.replace(regexCardSlot, function(all, count, cardName) {
         var slot = {
@@ -43,6 +42,7 @@ var parseDeckList = function(deckList) {
       continue;
     }
     deckList = deckList.replace(/^.*(?:\r|\n)?/, '');
+    deckList = deckList.trim();
   }
 
   return {
@@ -57,12 +57,21 @@ var getDataUrl = function(deckList) {
   return 'data:text/plain;base64,' + buf.toString('base64');
 };
 
+var deckNameRegex = /\s-\s(.+)/;
+
 hexo.extend.tag.register('mtg_deck', function(args, content) {
   var deckName = args.join(' ');
+  var deckDescription = '';
+  if (deckName.match(deckNameRegex)) {
+    deckName = deckName.replace(deckNameRegex, function(all, description) {
+      deckDescription = description;
+      return '';
+    });
+  }
   var deckList = parseDeckList(content);
   var uri = getDataUrl(content);
 
-  return deckTmpl({name: deckName, deckList: deckList, uri: uri}).replace(/(?:\r|\n)/g, '');
+  return deckTmpl({name: deckName, description: deckDescription, deckList: deckList, uri: uri}).replace(/(?:\r|\n)/g, '');
 }, {ends: true});
 
 hexo.extend.tag.register('mtg_deck_asset', function(args) {
@@ -77,8 +86,15 @@ hexo.extend.tag.register('mtg_deck_asset', function(args) {
   if (!asset) return '';
 
   var deckName = args.join(' ');
+  var deckDescription = '';
+  if (deckName.match(deckNameRegex)) {
+    deckName = deckName.replace(deckNameRegex, function(all, description) {
+      deckDescription = description;
+      return '';
+    });
+  }
   var deckList = parseDeckList(fs.readFileSync(asset.source));
   var uri = ctx.config.root + asset.path
 
-  return deckTmpl({name: deckName, deckList: deckList, uri: uri}).replace(/(?:\r|\n)/g, '');;
+  return deckTmpl({{name: deckName, description: deckDescription, deckList: deckList, uri: uri}).replace(/(?:\r|\n)/g, '');;
 });
