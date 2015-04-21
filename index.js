@@ -18,7 +18,7 @@ var parseDeckList = function(deckList) {
   var isMainboard = true;
 
   var regexCardSlot = /^([0-9]+)\s(.*)(?:\r|\n|$)/;
-  var regexSideboard = /^$/;
+  var regexSideboard = /^(?:\r|\n)/;
 
   while(deckList.length > 0) {
     if (deckList.match(regexCardSlot)) {
