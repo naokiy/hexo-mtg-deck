@@ -1,4 +1,6 @@
-<div is="mtg_deck">
+<dl is="mtg_deck">
+<dt><%= name %><% if (description) { %><span><%= description %></span><% } %></dt>
+<dd>
 <% if (deckList.mainboard.length > 0) { %>
 <dl is="mtg_deck_mainboard">
 <dt>Mainboard</dt><dd><ul>
@@ -19,4 +21,5 @@
 <% }) %>
 </ul></dd></dl>
 <% } %>
-</div>
+</dd>
+</dl>
