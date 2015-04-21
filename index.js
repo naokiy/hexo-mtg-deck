@@ -96,5 +96,5 @@ hexo.extend.tag.register('mtg_deck_asset', function(args) {
   var deckList = parseDeckList(fs.readFileSync(asset.source));
   var uri = ctx.config.root + asset.path
 
-  return deckTmpl({{name: deckName, description: deckDescription, deckList: deckList, uri: uri}).replace(/(?:\r|\n)/g, '');;
+  return deckTmpl({name: deckName, description: deckDescription, deckList: deckList, uri: uri}).replace(/(?:\r|\n)/g, '');;
 });
