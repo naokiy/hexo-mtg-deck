@@ -18,10 +18,9 @@ var parseDeckList = function(deckList) {
   var isMainboard = true;
 
   var regexCardSlot = /^([0-9]+)\s(.*)(?:\r|\n|$)/;
-  var regexSideboard = /^Sideboard/;
+  var regexSideboard = /^$/;
 
   while(deckList.length > 0) {
-    deckList = deckList.trim();
     if (deckList.match(regexCardSlot)) {
       deckList = deckList.replace(regexCardSlot, function(all, count, cardName) {
         var slot = {
@@ -43,6 +42,7 @@ var parseDeckList = function(deckList) {
       continue;
     }
     deckList = deckList.replace(/^.*(?:\r|\n)?/, '');
+    deckList = deckList.trim();
   }
 
   return {
